@@ -1,7 +1,7 @@
 extends Node
 
 ### NETWORKING
-var websocket_url = "http://127.0.0.1:3000"
+var websocket_url = "http://66.29.143.210:3000"
 var _client = WebSocketClient.new()
 
 # Message Types
@@ -23,9 +23,9 @@ func _ready():
 func _process(delta):
 	_client.poll()
 	
-func connect_to_server() -> bool:
+func connect_to_server(address=websocket_url) -> bool:
 	var result
-	var err = _client.connect_to_url(websocket_url)
+	var err = _client.connect_to_url(address)
 	if err != OK:
 		Debug.log("Client","Unable to connect")
 		result = false
@@ -48,7 +48,7 @@ func _server_disconnected():
 
 func _connection_failed():
 	Debug.log("Client","_connection_failed")
-	emit_signal("connection_failed")
+	emit_signal("connection_error")
 
 
 func _on_data():

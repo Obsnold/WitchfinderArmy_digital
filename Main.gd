@@ -45,7 +45,7 @@ onready var uiPopUpMessage = $ErrorPopup/Message
 var game
 
 func _ready():
-	Client.connect("connection_failed", self, "_connection_failed")
+	Client.connect("connection_error", self, "_connection_failed")
 	Client.connect("connected_to_server", self, "_connected_to_server")
 	Client.connect("data_lobby", self, "_on_data")
 	if Client.connect_to_server() == false:
@@ -62,7 +62,7 @@ func _leave_game():
 # CLIENT callback functions ----------------------------
 func _connection_failed():
 	Debug.log("Lobby","_connection_failed")
-	uiPopUpMessage.text = "Could not connect to server"
+	uiPopUpMessage.text = "Could not connect to server!\nTry refreshing Page"
 	uiPopUp.popup_centered()
 	
 func _connected_to_server():
