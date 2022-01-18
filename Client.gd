@@ -1,15 +1,15 @@
 extends Node
 
 ### NETWORKING
-var websocket_url = "127.0.0.1:3000"
+var websocket_url = "http://127.0.0.1:3000"
 var _client = WebSocketClient.new()
 
 # Message Types
 enum MSG{LOBBY,WFG}
 
-signal server_disconnected()
-signal connected_to_server()
-signal conection_failed()
+signal server_disconnected
+signal connected_to_server
+signal connection_error
 signal data_lobby(data)
 signal data_game(data)
 
@@ -19,16 +19,20 @@ func _ready():
 	_client.connect("connection_error", self, "_connection_failed")
 	_client.connect("connection_established", self, "_connected_to_server")
 	_client.connect("data_received", self, "_on_data")
-	var err = _client.connect_to_url(websocket_url)
-	if err != OK:
-		Debug.log("Client","Unable to connect")
-		set_process(false)
-	else:
-		Debug.log("Client","Connect OK!")
 
 func _process(delta):
 	_client.poll()
 	
+func connect_to_server() -> bool:
+	var result
+	var err = _client.connect_to_url(websocket_url)
+	if err != OK:
+		Debug.log("Client","Unable to connect")
+		result = false
+	else:
+		Debug.log("Client","Connect OK!")
+		result = true
+	return result
 
 func send(data):
 	var packet: PoolByteArray = JSON.print(data).to_utf8()
@@ -36,7 +40,7 @@ func send(data):
 
 func _connected_to_server(_protocol: String) -> void:
 	Debug.log("Client","_connected_to_server")
-	emit_signal("server_disconnected")
+	emit_signal("connected_to_server")
 
 func _server_disconnected():
 	Debug.log("Client","_server_disconnected")
@@ -44,7 +48,7 @@ func _server_disconnected():
 
 func _connection_failed():
 	Debug.log("Client","_connection_failed")
-	emit_signal("server_disconnected")
+	emit_signal("connection_failed")
 
 
 func _on_data():

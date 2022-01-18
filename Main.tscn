@@ -5,34 +5,41 @@
 [node name="Main" type="Node"]
 script = ExtResource( 1 )
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
-margin_left = 5.0
-margin_top = 5.0
-margin_right = 1029.0
-margin_bottom = 605.0
+[node name="ErrorPopup" type="PopupDialog" parent="."]
+visible = true
+margin_left = 72.0
+margin_top = 59.0
+margin_right = 372.0
+margin_bottom = 109.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Message" type="Label" parent="ErrorPopup"]
+margin_right = 300.0
+margin_bottom = 50.0
+text = "Test"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MainMenu" type="PopupDialog" parent="."]
+visible = true
+margin_left = 700.0
+margin_top = 224.0
+margin_right = 1008.0
+margin_bottom = 560.0
+rect_min_size = Vector2( 308, 336 )
+rect_pivot_offset = Vector2( -330, 113 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" type="TextureRect" parent="CenterContainer"]
-visible = false
-margin_left = 512.0
-margin_top = 300.0
-margin_right = 512.0
-margin_bottom = 300.0
-
-[node name="TabContainer" type="TabContainer" parent="CenterContainer"]
-margin_left = 358.0
-margin_top = 132.0
-margin_right = 666.0
-margin_bottom = 468.0
-rect_min_size = Vector2( 308, 336 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="BasicSetup" type="MarginContainer" parent="CenterContainer/TabContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MainMenu"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -44,8 +51,11 @@ custom_constants/margin_right = 10
 custom_constants/margin_top = 10
 custom_constants/margin_left = 10
 custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/TabContainer/BasicSetup"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 290.0
@@ -54,18 +64,74 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Name" type="HBoxContainer" parent="CenterContainer/TabContainer/BasicSetup/VBoxContainer"]
+[node name="JoinGame" type="Button" parent="MainMenu/MarginContainer/VBoxContainer"]
 margin_right = 280.0
-margin_bottom = 67.0
+margin_bottom = 20.0
+text = "Join Game"
+
+[node name="CreateGame" type="Button" parent="MainMenu/MarginContainer/VBoxContainer"]
+margin_top = 24.0
+margin_right = 280.0
+margin_bottom = 44.0
+text = "Create Game"
+
+[node name="NetworkSettings" type="Button" parent="MainMenu/MarginContainer/VBoxContainer"]
+margin_top = 48.0
+margin_right = 280.0
+margin_bottom = 68.0
+text = "Network Settings"
+
+[node name="JoinGame" type="PopupDialog" parent="."]
+visible = true
+margin_left = 375.0
+margin_top = 223.0
+margin_right = 683.0
+margin_bottom = 559.0
+rect_min_size = Vector2( 308, 336 )
+rect_pivot_offset = Vector2( -330, 113 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="CenterContainer/TabContainer/BasicSetup/VBoxContainer/Name"]
+[node name="MarginContainer" type="MarginContainer" parent="JoinGame"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+rect_min_size = Vector2( 300, 300 )
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="JoinGame/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 290.0
+margin_bottom = 290.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Name" type="HBoxContainer" parent="JoinGame/MarginContainer/VBoxContainer"]
+margin_right = 280.0
+margin_bottom = 61.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="JoinGame/MarginContainer/VBoxContainer/Name"]
 margin_right = 85.0
-margin_bottom = 67.0
+margin_bottom = 61.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.45
@@ -73,59 +139,29 @@ text = "Name:"
 align = 2
 valign = 1
 
-[node name="Input" type="TextEdit" parent="CenterContainer/TabContainer/BasicSetup/VBoxContainer/Name"]
+[node name="Input" type="TextEdit" parent="JoinGame/MarginContainer/VBoxContainer/Name"]
 margin_left = 89.0
 margin_right = 280.0
-margin_bottom = 67.0
+margin_bottom = 61.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CreateGame" type="HBoxContainer" parent="CenterContainer/TabContainer/BasicSetup/VBoxContainer"]
-margin_top = 71.0
+[node name="GameID" type="HBoxContainer" parent="JoinGame/MarginContainer/VBoxContainer"]
+margin_top = 65.0
 margin_right = 280.0
-margin_bottom = 138.0
+margin_bottom = 126.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="CenterContainer/TabContainer/BasicSetup/VBoxContainer/CreateGame"]
+[node name="Label" type="Label" parent="JoinGame/MarginContainer/VBoxContainer/GameID"]
 margin_right = 85.0
-margin_bottom = 67.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.45
-text = "Host:"
-align = 2
-valign = 1
-
-[node name="CheckBox" type="CheckBox" parent="CenterContainer/TabContainer/BasicSetup/VBoxContainer/CreateGame"]
-margin_left = 89.0
-margin_right = 280.0
-margin_bottom = 67.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="GameID" type="HBoxContainer" parent="CenterContainer/TabContainer/BasicSetup/VBoxContainer"]
-margin_top = 142.0
-margin_right = 280.0
-margin_bottom = 209.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label" type="Label" parent="CenterContainer/TabContainer/BasicSetup/VBoxContainer/GameID"]
-margin_right = 85.0
-margin_bottom = 67.0
+margin_bottom = 61.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.45
@@ -133,20 +169,51 @@ text = "Game ID:"
 align = 2
 valign = 1
 
-[node name="Input" type="TextEdit" parent="CenterContainer/TabContainer/BasicSetup/VBoxContainer/GameID"]
+[node name="Input" type="TextEdit" parent="JoinGame/MarginContainer/VBoxContainer/GameID"]
 margin_left = 89.0
 margin_right = 280.0
-margin_bottom = 67.0
+margin_bottom = 61.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="JoinButton" type="Button" parent="CenterContainer/TabContainer/BasicSetup/VBoxContainer"]
-margin_top = 213.0
+[node name="Password" type="HBoxContainer" parent="JoinGame/MarginContainer/VBoxContainer"]
+margin_top = 130.0
 margin_right = 280.0
-margin_bottom = 280.0
+margin_bottom = 191.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="JoinGame/MarginContainer/VBoxContainer/Password"]
+margin_right = 85.0
+margin_bottom = 61.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.45
+text = "Password:"
+align = 2
+valign = 1
+
+[node name="Input" type="TextEdit" parent="JoinGame/MarginContainer/VBoxContainer/Password"]
+margin_left = 89.0
+margin_right = 280.0
+margin_bottom = 61.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "password"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="JoinButton" type="Button" parent="JoinGame/MarginContainer/VBoxContainer"]
+margin_top = 195.0
+margin_right = 280.0
+margin_bottom = 256.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Join"
@@ -154,8 +221,26 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HostSetup" type="MarginContainer" parent="CenterContainer/TabContainer"]
-visible = false
+[node name="BackButton" type="Button" parent="JoinGame/MarginContainer/VBoxContainer"]
+margin_top = 260.0
+margin_right = 280.0
+margin_bottom = 280.0
+text = "Back"
+
+[node name="CreateGame" type="PopupDialog" parent="."]
+visible = true
+margin_left = 49.0
+margin_top = 226.0
+margin_right = 357.0
+margin_bottom = 562.0
+rect_min_size = Vector2( 308, 336 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="CreateGame"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -163,22 +248,22 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/TabContainer/HostSetup"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CreateGame/MarginContainer"]
 margin_right = 300.0
 margin_bottom = 300.0
 
-[node name="Name" type="HBoxContainer" parent="CenterContainer/TabContainer/HostSetup/VBoxContainer"]
-margin_right = 46.0
-margin_bottom = 40.0
+[node name="Name" type="HBoxContainer" parent="CreateGame/MarginContainer/VBoxContainer"]
+margin_right = 300.0
+margin_bottom = 38.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="CenterContainer/TabContainer/HostSetup/VBoxContainer/Name"]
-margin_right = 42.0
-margin_bottom = 40.0
+[node name="Label" type="Label" parent="CreateGame/MarginContainer/VBoxContainer/Name"]
+margin_right = 91.0
+margin_bottom = 38.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.45
@@ -186,18 +271,201 @@ text = "Name:"
 align = 2
 valign = 1
 
-[node name="Input" type="TextEdit" parent="CenterContainer/TabContainer/HostSetup/VBoxContainer/Name"]
-margin_left = 46.0
-margin_right = 46.0
-margin_bottom = 40.0
+[node name="Input" type="TextEdit" parent="CreateGame/MarginContainer/VBoxContainer/Name"]
+margin_left = 95.0
+margin_right = 300.0
+margin_bottom = 38.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Network" type="MarginContainer" parent="CenterContainer/TabContainer"]
-visible = false
+[node name="Password" type="HBoxContainer" parent="CreateGame/MarginContainer/VBoxContainer"]
+margin_top = 42.0
+margin_right = 300.0
+margin_bottom = 81.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CreateGame/MarginContainer/VBoxContainer/Password"]
+margin_right = 91.0
+margin_bottom = 39.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.45
+text = "Password:"
+align = 2
+valign = 1
+
+[node name="Input" type="TextEdit" parent="CreateGame/MarginContainer/VBoxContainer/Password"]
+margin_left = 95.0
+margin_right = 300.0
+margin_bottom = 39.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "password"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NoPlayers" type="HBoxContainer" parent="CreateGame/MarginContainer/VBoxContainer"]
+margin_top = 85.0
+margin_right = 300.0
+margin_bottom = 124.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CreateGame/MarginContainer/VBoxContainer/NoPlayers"]
+margin_right = 91.0
+margin_bottom = 39.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.45
+text = "Number of
+Players:"
+align = 2
+valign = 1
+
+[node name="Input" type="TextEdit" parent="CreateGame/MarginContainer/VBoxContainer/NoPlayers"]
+margin_left = 95.0
+margin_right = 300.0
+margin_bottom = 39.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "4"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Witchfinders" type="HBoxContainer" parent="CreateGame/MarginContainer/VBoxContainer"]
+margin_top = 128.0
+margin_right = 300.0
+margin_bottom = 166.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CreateGame/MarginContainer/VBoxContainer/Witchfinders"]
+margin_right = 91.0
+margin_bottom = 38.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.45
+text = "Number of 
+Witchfinders:"
+align = 2
+valign = 1
+
+[node name="Input" type="TextEdit" parent="CreateGame/MarginContainer/VBoxContainer/Witchfinders"]
+margin_left = 95.0
+margin_right = 300.0
+margin_bottom = 38.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "2"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Witches" type="HBoxContainer" parent="CreateGame/MarginContainer/VBoxContainer"]
+margin_top = 170.0
+margin_right = 300.0
+margin_bottom = 209.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CreateGame/MarginContainer/VBoxContainer/Witches"]
+margin_right = 91.0
+margin_bottom = 39.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.45
+text = "Number of 
+Witches:"
+align = 2
+valign = 1
+
+[node name="Input" type="TextEdit" parent="CreateGame/MarginContainer/VBoxContainer/Witches"]
+margin_left = 95.0
+margin_right = 300.0
+margin_bottom = 39.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Cultists" type="HBoxContainer" parent="CreateGame/MarginContainer/VBoxContainer"]
+margin_top = 213.0
+margin_right = 300.0
+margin_bottom = 252.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CreateGame/MarginContainer/VBoxContainer/Cultists"]
+margin_right = 91.0
+margin_bottom = 39.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.45
+text = "Number of
+Cultists:"
+align = 2
+valign = 1
+
+[node name="Input" type="TextEdit" parent="CreateGame/MarginContainer/VBoxContainer/Cultists"]
+margin_left = 95.0
+margin_right = 300.0
+margin_bottom = 39.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CreateButton" type="Button" parent="CreateGame/MarginContainer/VBoxContainer"]
+margin_top = 256.0
+margin_right = 300.0
+margin_bottom = 276.0
+text = "Create"
+
+[node name="BackButton" type="Button" parent="CreateGame/MarginContainer/VBoxContainer"]
+margin_top = 280.0
+margin_right = 300.0
+margin_bottom = 300.0
+text = "Back"
+
+[node name="NetworkSettings" type="PopupDialog" parent="."]
+visible = true
+margin_left = 1020.0
+margin_top = 227.0
+margin_right = 1328.0
+margin_bottom = 563.0
+rect_min_size = Vector2( 308, 336 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="NetworkSettings"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -205,22 +473,22 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/TabContainer/Network"]
+[node name="VBoxContainer" type="VBoxContainer" parent="NetworkSettings/MarginContainer"]
 margin_right = 300.0
 margin_bottom = 300.0
 
-[node name="ServerIP" type="HBoxContainer" parent="CenterContainer/TabContainer/Network/VBoxContainer"]
-margin_right = 65.0
-margin_bottom = 18.0
+[node name="ServerIP" type="HBoxContainer" parent="NetworkSettings/MarginContainer/VBoxContainer"]
+margin_right = 300.0
+margin_bottom = 136.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="CenterContainer/TabContainer/Network/VBoxContainer/ServerIP"]
-margin_right = 61.0
-margin_bottom = 18.0
+[node name="Label" type="Label" parent="NetworkSettings/MarginContainer/VBoxContainer/ServerIP"]
+margin_right = 91.0
+margin_bottom = 136.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.45
@@ -228,29 +496,29 @@ text = "Server IP:"
 align = 2
 valign = 1
 
-[node name="Input" type="TextEdit" parent="CenterContainer/TabContainer/Network/VBoxContainer/ServerIP"]
-margin_left = 65.0
-margin_right = 65.0
-margin_bottom = 18.0
+[node name="Input" type="TextEdit" parent="NetworkSettings/MarginContainer/VBoxContainer/ServerIP"]
+margin_left = 95.0
+margin_right = 300.0
+margin_bottom = 136.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ServerPort" type="HBoxContainer" parent="CenterContainer/TabContainer/Network/VBoxContainer"]
-margin_top = 18.0
-margin_right = 78.0
-margin_bottom = 32.0
+[node name="ServerPort" type="HBoxContainer" parent="NetworkSettings/MarginContainer/VBoxContainer"]
+margin_top = 140.0
+margin_right = 300.0
+margin_bottom = 276.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="CenterContainer/TabContainer/Network/VBoxContainer/ServerPort"]
-margin_right = 74.0
-margin_bottom = 14.0
+[node name="Label" type="Label" parent="NetworkSettings/MarginContainer/VBoxContainer/ServerPort"]
+margin_right = 91.0
+margin_bottom = 136.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.45
@@ -258,14 +526,27 @@ text = "Server Port:"
 align = 2
 valign = 1
 
-[node name="Input" type="TextEdit" parent="CenterContainer/TabContainer/Network/VBoxContainer/ServerPort"]
-margin_left = 78.0
-margin_right = 78.0
-margin_bottom = 14.0
+[node name="Input" type="TextEdit" parent="NetworkSettings/MarginContainer/VBoxContainer/ServerPort"]
+margin_left = 95.0
+margin_right = 300.0
+margin_bottom = 136.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="button_up" from="CenterContainer/TabContainer/BasicSetup/VBoxContainer/JoinButton" to="." method="_on_JoinButton_button_up"]
+[node name="BackButton" type="Button" parent="NetworkSettings/MarginContainer/VBoxContainer"]
+margin_top = 280.0
+margin_right = 300.0
+margin_bottom = 300.0
+text = "Back"
+
+[connection signal="button_up" from="MainMenu/MarginContainer/VBoxContainer/JoinGame" to="." method="_on_JoinGame_button_up"]
+[connection signal="button_up" from="MainMenu/MarginContainer/VBoxContainer/CreateGame" to="." method="_on_CreateGame_button_up"]
+[connection signal="button_up" from="MainMenu/MarginContainer/VBoxContainer/NetworkSettings" to="." method="_on_NetworkSettings_button_up"]
+[connection signal="button_up" from="JoinGame/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_JoinButton_button_up"]
+[connection signal="button_up" from="JoinGame/MarginContainer/VBoxContainer/BackButton" to="." method="_on_BackButton_button_up"]
+[connection signal="button_up" from="CreateGame/MarginContainer/VBoxContainer/CreateButton" to="." method="_on_CreateButton_button_up"]
+[connection signal="button_up" from="CreateGame/MarginContainer/VBoxContainer/BackButton" to="." method="_on_BackButton_button_up"]
+[connection signal="button_up" from="NetworkSettings/MarginContainer/VBoxContainer/BackButton" to="." method="_on_BackButton_button_up"]

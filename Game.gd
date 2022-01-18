@@ -20,6 +20,7 @@ var votes = {}
 var p_id: int
 
 signal game_ended
+signal leave_game
 signal send_msg(data)
 
 onready var uiCardSprite = $MarginContainer/HBoxContainer/MarginContainer/CenterContainer/Sprite
@@ -43,12 +44,7 @@ func waiting():
 	_send_request_player_list()
 	g_state = WAITING
 	uiItemListTitle.text = "WAITING! GAME: " + name
-	Debug.log(str(p_id), "name = " + name)
-	uiItemList.clear()
 	uiItemListButton.text = "Leave Game"
-	for player in player_list.keys():
-		uiItemList.add_item(player_list[player].name,null,true)
-		
 
 
 ### HELPER FUNCTIONS -------------------------------------------------------
@@ -330,11 +326,12 @@ func _rcv_start_game():
 func _rcv_update_player_list(list):
 	Debug.log(str(p_id), "_rcv_update_player_list" + str(list) )
 	# have to convert list as after sending keys are now strings instead of ints
+	player_list = {}
 	for player in list:
 		player_list[int(player)] = list[player]
-	uiItemList.clear()
 	if g_state == WAITING:
 		uiName.text = player_list[p_id].name
+		uiItemList.clear()
 		for player in player_list.keys():
 			uiItemList.add_item(player_list[player].name,null,true)
 		if player_list.size() == no_players && str(p_id) == str(name):
@@ -381,7 +378,7 @@ func _on_Button_button_up():
 	var select = uiItemList.get_selected_items()
 	match g_state:
 		WAITING:
-			pass
+			emit_signal("leave_game")
 		VOTING:
 			if select.size() > 0:
 				var id = get_id_from_name(uiItemList.get_item_text(select[0]))
