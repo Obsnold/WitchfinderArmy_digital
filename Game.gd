@@ -37,7 +37,7 @@ onready var uiChatInput = $MarginContainer/HBoxContainer/Chat/VBoxContainer/Inpu
 func _ready():
 	randomize()
 	Client.connect("data_game", self, "_on_data")
-	uiCardSprite.texture = load("res://Resources/back_card.svg")
+	uiCardSprite.texture = load("res://Resources/Cards/back_card.svg")
 
 func waiting():
 	Debug.log(str(p_id), "Waiting for all players to join!")
@@ -153,22 +153,22 @@ func game_start():
 	match int(player_list[p_id].type):
 		CARD_TYPE.WITCHFINDER:
 			Debug.log(str(p_id),"witchfinder_card")
-			front = load("res://Resources/witchfinder_card.svg")
+			front = load("res://Resources/Cards/witchfinder_card.svg")
 		CARD_TYPE.WITCHFINDER_GENERAL:
 			Debug.log(str(p_id),"witchfinder_general_card")
-			front = load("res://Resources/witchfinder_general_card.svg")
+			front = load("res://Resources/Cards/witchfinder_general_card.svg")
 		CARD_TYPE.WITCH:
 			Debug.log(str(p_id),"witch_card")
-			front = load("res://Resources/witch_card.svg")
+			front = load("res://Resources/Cards/witch_card.svg")
 		CARD_TYPE.GHOST:
 			Debug.log(str(p_id),"ghost_card")
-			front = load("res://Resources/ghost_card.svg")
+			front = load("res://Resources/Cards/ghost_card.svg")
 		CARD_TYPE.CULTIST:
 			Debug.log(str(p_id),"cultist_card")
-			front = load("res://Resources/cultist_card.svg")
+			front = load("res://Resources/Cards/cultist_card.svg")
 		_:
 			Debug.log(str(p_id),"NA-------")
-			front = load("res://Resources/back_card.svg")
+			front = load("res://Resources/Cards/back_card.svg")
 			return
 	uiCardSprite.texture = front
 	start_voting()

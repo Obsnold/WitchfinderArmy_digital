@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/cultist_card.svg-1aa5987e034f5b868923805d5de624ae.stex"
+path="res://.import/witchfinder_general_card.svg-c28102f7b7d750e5776e62cc1a29bf2e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/cultist_card.svg"
-dest_files=[ "res://.import/cultist_card.svg-1aa5987e034f5b868923805d5de624ae.stex" ]
+source_file="res://Resources/Cards/witchfinder_general_card.svg"
+dest_files=[ "res://.import/witchfinder_general_card.svg-c28102f7b7d750e5776e62cc1a29bf2e.stex" ]
 
 [params]
 

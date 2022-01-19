@@ -6,6 +6,9 @@ enum SUB{CREATE,DELETE,JOIN,LEAVE,LIST}
 # Menus
 enum MENU{MAIN,JOIN,CREATE,NETWORK,NONE}
 
+# Error Codes
+enum ERROR{NO_SUCH_GAME_ID,INVALID_USER_NAME,USER_NAME_TAKEN,}
+
 # Main Menu UI
 onready var uiMainMenu = $MainMenu
 onready var JoinMenuButton = $MainMenu/MarginContainer/VBoxContainer/JoinGame
@@ -39,7 +42,9 @@ onready var uiNetBackButton = $NetworkSettings/MarginContainer/VBoxContainer/Bac
 
 # Error PopUp UI
 onready var uiPopUp = $ErrorPopup
-onready var uiPopUpMessage = $ErrorPopup/Message
+onready var uiPopUpMessage = $ErrorPopup/MarginContainer/Message
+
+onready var uiTitle = $Title
 
 # holds the instance of the game
 var game
@@ -71,6 +76,10 @@ func _connected_to_server():
 
 func _on_data(data):
 	Debug.log("Lobby","_on_data")
+	if int(data.error) !=0:
+		Debug.log("Lobby","Error Message recieved")
+		handle_error(int(data.error))
+		return
 	match int(data.sub_type):
 		SUB.CREATE:
 			recv_create_game(int(data.error),int(data.game_id),int(data.user_id))
@@ -188,6 +197,7 @@ func recv_get_game_list(error:int, game_list:Array):
 
 ### UI FUNCTIONS --------------------------------------------------------------
 func change_menu(menu):
+	Debug.log("Lobby","change_menu")
 	uiMainMenu.hide()
 	uiJoinGame.hide()
 	uiCreateGame.hide()
@@ -195,17 +205,26 @@ func change_menu(menu):
 	match menu:
 		MENU.MAIN:
 			uiMainMenu.popup_centered()
+			uiTitle.show()
 		MENU.JOIN:
 			uiJoinGame.popup_centered()
+			uiTitle.show()
 		MENU.CREATE:
 			uiCreateGame.popup_centered()
+			uiTitle.show()
 		MENU.NETWORK:
 			uiNetworkSettings.popup_centered()
+			uiTitle.show()
 		MENU.NONE:
+			uiTitle.hide()
 			pass
 		_:
 			Debug.log("Lobby", "Unknown Menu")
 			uiMainMenu.popup_centered()
+
+func handle_error(err_code:int):
+	uiPopUpMessage.text = str(ERROR.keys()[err_code])
+	uiPopUp.popup_centered()
 
 func _on_JoinButton_button_up():
 	send_join_game(str(uiPlayerName.text),str(uiJoinPassword.text),int(uiGameID.text))
@@ -215,6 +234,7 @@ func _on_CreateButton_button_up():
 					int(uiNoWitchfinders.text),int(uiNoCultists.text),int(uiNoWitches.text))
 
 func _on_BackButton_button_up():
+	Debug.log("Lobby","BackButton")
 	change_menu(MENU.MAIN)
 
 func _on_JoinGame_button_up():

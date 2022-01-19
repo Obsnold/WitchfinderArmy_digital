@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/back_card.svg-5a2a0a453d0ecd73011e2496e34061dc.stex"
+path="res://.import/witchfinder_card.svg-082112e0c4ef96d8bfbb5a921265c41f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/back_card.svg"
-dest_files=[ "res://.import/back_card.svg-5a2a0a453d0ecd73011e2496e34061dc.stex" ]
+source_file="res://Resources/Cards/witchfinder_card.svg"
+dest_files=[ "res://.import/witchfinder_card.svg-082112e0c4ef96d8bfbb5a921265c41f.stex" ]
 
 [params]
 

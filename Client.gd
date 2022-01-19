@@ -20,7 +20,7 @@ func _ready():
 	_client.connect("connection_established", self, "_connected_to_server")
 	_client.connect("data_received", self, "_on_data")
 
-func _process(delta):
+func _process(_delta):
 	_client.poll()
 	
 func connect_to_server(address=websocket_url) -> bool:

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/witch_card.svg-a8c08c3efbbe28a427405fe5580ef1ee.stex"
+path="res://.import/text_edit.png-76428adf0a78213aee76f0d157865c78.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/witch_card.svg"
-dest_files=[ "res://.import/witch_card.svg-a8c08c3efbbe28a427405fe5580ef1ee.stex" ]
+source_file="res://Resources/UI/text_edit.png"
+dest_files=[ "res://.import/text_edit.png-76428adf0a78213aee76f0d157865c78.stex" ]
 
 [params]
 
