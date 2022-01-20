@@ -1,10 +1,11 @@
-[gd_resource type="Theme" load_steps=6 format=2]
+[gd_resource type="Theme" load_steps=7 format=2]
 
 [ext_resource path="res://Theme/popup.tres" type="StyleBox" id=1]
 [ext_resource path="res://Theme/button.tres" type="StyleBox" id=2]
 [ext_resource path="res://Theme/button_hover.tres" type="StyleBox" id=3]
 [ext_resource path="res://Theme/text_edit.tres" type="StyleBox" id=4]
 [ext_resource path="res://Theme/text_display.tres" type="StyleBox" id=5]
+[ext_resource path="res://Theme/select_list.tres" type="StyleBox" id=6]
 
 [resource]
 /fonts/Button = null
@@ -17,7 +18,7 @@ Button/styles/hover = ExtResource( 3 )
 Button/styles/normal = ExtResource( 2 )
 Button/styles/pressed = ExtResource( 3 )
 ItemList/colors/font_color = Color( 0, 0, 0, 1 )
-ItemList/styles/bg = ExtResource( 5 )
+ItemList/styles/bg = ExtResource( 6 )
 Label/colors/font_color = Color( 0, 0, 0, 1 )
 LineEdit/colors/font_color = Color( 0, 0, 0, 1 )
 LineEdit/colors/font_color_selected = Color( 1, 1, 1, 1 )

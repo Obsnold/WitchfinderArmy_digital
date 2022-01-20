@@ -4,7 +4,7 @@ extends Node
 enum SUB{CREATE,DELETE,JOIN,LEAVE,LIST}
 
 # Menus
-enum MENU{MAIN,JOIN,CREATE,NETWORK,NONE}
+enum MENU{LOADING,MAIN,JOIN,CREATE,NETWORK,NONE}
 
 # Error Codes
 enum ERROR{NO_SUCH_GAME_ID,INVALID_USER_NAME,USER_NAME_TAKEN,}
@@ -44,12 +44,15 @@ onready var uiNetBackButton = $NetworkSettings/MarginContainer/VBoxContainer/Bac
 onready var uiPopUp = $ErrorPopup
 onready var uiPopUpMessage = $ErrorPopup/MarginContainer/Message
 
+onready var uiLoading = $Loading
+
 onready var uiTitle = $Title
 
 # holds the instance of the game
 var game
 
 func _ready():
+	change_menu(MENU.LOADING)
 	Client.connect("connection_error", self, "_connection_failed")
 	Client.connect("connected_to_server", self, "_connected_to_server")
 	Client.connect("data_lobby", self, "_on_data")
@@ -202,7 +205,11 @@ func change_menu(menu):
 	uiJoinGame.hide()
 	uiCreateGame.hide()
 	uiNetworkSettings.hide()
+	uiLoading.hide()
 	match menu:
+		MENU.LOADING:
+			uiLoading.popup_centered()
+			uiTitle.show()
 		MENU.MAIN:
 			uiMainMenu.popup_centered()
 			uiTitle.show()
@@ -227,9 +234,11 @@ func handle_error(err_code:int):
 	uiPopUp.popup_centered()
 
 func _on_JoinButton_button_up():
+	change_menu(MENU.LOADING)
 	send_join_game(str(uiPlayerName.text),str(uiJoinPassword.text),int(uiGameID.text))
 
 func _on_CreateButton_button_up():
+	change_menu(MENU.LOADING)
 	send_create_game(str(uiOwnerName.text),str(uiCreatePassword.text),int(uiNoPlayers.text),
 					int(uiNoWitchfinders.text),int(uiNoCultists.text),int(uiNoWitches.text))
 

@@ -23,8 +23,9 @@ signal game_ended
 signal leave_game
 signal send_msg(data)
 
-onready var uiCardSprite = $MarginContainer/HBoxContainer/MarginContainer/CenterContainer/Sprite
-onready var uiName = $MarginContainer/HBoxContainer/MarginContainer/MarginContainer/Name
+onready var uiCardSprite = $MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/CenterContainer/Sprite
+onready var uiName = $MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/Name
+onready var uiGameId = $MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/Game_ID
 onready var uiSelectWindow = $MarginContainer/HBoxContainer/Select/VBoxContainer
 onready var uiItemList = $MarginContainer/HBoxContainer/Select/VBoxContainer/ItemList
 onready var uiItemListTitle = $MarginContainer/HBoxContainer/Select/VBoxContainer/Label
@@ -43,8 +44,10 @@ func waiting():
 	Debug.log(str(p_id), "Waiting for all players to join!")
 	_send_request_player_list()
 	g_state = WAITING
-	uiItemListTitle.text = "WAITING! GAME: " + name
+	uiGameId.text = "GAME ID: " + name
+	uiItemListTitle.text = "Waiting for players!"
 	uiItemListButton.text = "Leave Game"
+	#_show_popup(POP.WAITING)
 
 
 ### HELPER FUNCTIONS -------------------------------------------------------
@@ -97,28 +100,27 @@ func start_voting():
 	#Debug.log(str(p_id), "start_voting")
 	g_state = VOTING
 	uiItemList.clear()
-	for player in player_list.keys():
-		if player_list[player].ghost == false:
-			uiItemList.add_item(player_list[player].name,null,true)
+	_update_list()
 	uiItemListTitle.text = "Vote for Witchfinder General"
 	uiItemListButton.text = "VOTE"
+	uiItemListButton.show()
 	uiSelectWindow.show()
 
 func stop_voting(vote:int):
 	#Debug.log(str(p_id), "stop_voting")
 	_send_chat_msg("Votes for " + player_list[vote].name)
-	uiSelectWindow.hide()
+	_disable_list()
 	_send_vote_for(vote)
+	uiItemListButton.hide()
 
 func start_execution():
 	#Debug.log(str(p_id), "start_execution")
 	g_state = EXECUTING
 	uiItemList.clear()
-	for player in player_list.keys():
-		if player_list[player].general== false and player_list[player].ghost == false:
-			uiItemList.add_item(player_list[player].name,null,true)
+	_update_list()
 	uiItemListTitle.text = "Select for execution"
 	uiItemListButton.text = "EXECUTE"
+	uiItemListButton.show()
 	uiSelectWindow.show()
 
 func stop_execution(id:int = 0):
@@ -128,24 +130,24 @@ func stop_execution(id:int = 0):
 	else:
 		_send_chat_msg( "Executes " + player_list[id].name)
 	_send_kill_player(id) 
-	uiSelectWindow.hide()
+	_disable_list()
+	uiItemListButton.hide()
 
 func start_ghost_peek():
 	#Debug.log(str(p_id), "start_ghost_peek")
 	g_state = PEEKING
-	uiItemList.clear()
-	for player in player_list.keys():
-		if player_list[player].ghost == false:
-			uiItemList.add_item(player_list[player].name,null,true)
+	_update_list()
 	uiItemListTitle.text = "Peek at another player"
 	uiItemListButton.text = "PEEK"
+	uiItemListButton.show()
 	uiSelectWindow.show()
 
 func stop_ghost_peek(id:int):
 	#Debug.log(str(p_id), "stop_ghost_peek")
 	_send_chat_msg( "peeks at " + player_list[id].name)
 	uiChatDisplay.text += player_list[id].name + " is a " + CARD_TYPE.keys()[player_list[id].type] + "\n"
-	uiSelectWindow.hide()
+	_disable_list()
+	uiItemListButton.hide()
 	_send_finished_peeking()
 
 func game_start():
@@ -171,6 +173,7 @@ func game_start():
 			front = load("res://Resources/Cards/back_card.svg")
 			return
 	uiCardSprite.texture = front
+	#_hide_popup()
 	start_voting()
 
 func game_end(winner:int):
@@ -331,10 +334,9 @@ func _rcv_update_player_list(list):
 		player_list[int(player)] = list[player]
 	if g_state == WAITING:
 		uiName.text = player_list[p_id].name
-		uiItemList.clear()
-		for player in player_list.keys():
-			uiItemList.add_item(player_list[player].name,null,true)
+		_update_list()
 		if player_list.size() == no_players && str(p_id) == str(name):
+			
 			#start game
 			_set_player_card_types()
 			_send_update_player_list()
@@ -393,3 +395,47 @@ func _on_Button_button_up():
 				stop_ghost_peek(id)
 		_:
 			pass
+
+func _disable_list():
+	uiItemList.unselect_all()
+	for num in uiItemList.get_item_count():
+		uiItemList.set_item_disabled(num,true)
+
+func _enable_list():
+	for num in uiItemList.get_item_count():
+		uiItemList.set_item_enabled(num,true)
+
+func _update_list():
+	uiItemList.clear()
+	match g_state:
+		EXECUTING:
+			for player in player_list.keys():
+				if player_list[player].general == true or player_list[player].ghost == true:
+					_add_player_to_list(player,false)
+				else:
+					_add_player_to_list(player,true)
+		VOTING,PEEKING:
+			for player in player_list.keys():
+				if player_list[player].ghost == true:
+					_add_player_to_list(player,false)
+				else:
+					_add_player_to_list(player,true)
+		_:
+			for player in player_list.keys():
+				_add_player_to_list(player,false)
+			pass
+		
+func _add_player_to_list(player:int,enabled:bool):
+	var name_tag = player_list[player].name
+	if(g_state != WAITING):
+		if (player_list[p_id].type == player_list[player].type):
+			match int(player_list[player].type):
+				CARD_TYPE.WITCH:
+					name_tag += " (Witch)"
+				CARD_TYPE.CULTIST:
+					name_tag += " (Cultist)"
+		if player_list[player].ghost == true:
+			name_tag += " (Ghost)"
+		if player_list[player].general == true:
+			name_tag += " (General)"
+	uiItemList.add_item(name_tag,null,enabled)
