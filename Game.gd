@@ -336,7 +336,6 @@ func _rcv_update_player_list(list):
 		uiName.text = player_list[p_id].name
 		_update_list()
 		if player_list.size() == no_players && str(p_id) == str(name):
-			
 			#start game
 			_set_player_card_types()
 			_send_update_player_list()
@@ -439,3 +438,5 @@ func _add_player_to_list(player:int,enabled:bool):
 		if player_list[player].general == true:
 			name_tag += " (General)"
 	uiItemList.add_item(name_tag,null,enabled)
+	uiItemList.set_item_disabled(uiItemList.get_item_count()-1,!enabled)
+	
