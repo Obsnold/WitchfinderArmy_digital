@@ -7,7 +7,7 @@ enum SUB{CREATE,DELETE,JOIN,LEAVE,LIST}
 enum MENU{LOADING,MAIN,JOIN,CREATE,NETWORK,NONE}
 
 # Error Codes
-enum ERROR{NO_SUCH_GAME_ID,INVALID_USER_NAME,USER_NAME_TAKEN,}
+enum ERROR{NO_ERROR,NO_SUCH_GAME_ID,CANNOT_JOIN_GAME,INVALID_PASSWORD}
 
 # Main Menu UI
 onready var uiMainMenu = $MainMenu
@@ -79,21 +79,21 @@ func _connected_to_server():
 
 func _on_data(data):
 	Debug.log("Lobby","_on_data")
-	if int(data.error) !=0:
+	if int(data.error) != ERROR.NO_ERROR:
 		Debug.log("Lobby","Error Message recieved")
 		handle_error(int(data.error))
 		return
 	match int(data.sub_type):
 		SUB.CREATE:
-			recv_create_game(int(data.error),int(data.game_id),int(data.user_id))
+			recv_create_game(int(data.game_id),int(data.user_id))
 		SUB.DELETE:
-			recv_delete_game(int(data.error))
+			recv_delete_game()
 		SUB.JOIN:
-			recv_join_game(int(data.error),int(data.game_id),int(data.user_id),data.player_list)
+			recv_join_game(int(data.game_id),int(data.user_id),data.player_list)
 		SUB.LEAVE:
-			recv_leave_game(int(data.error))
+			recv_leave_game()
 		SUB.LIST:
-			recv_get_game_list(int(data.error),data.game_list)
+			recv_get_game_list(data.game_list)
 		_:	# unknown message
 			Debug.log("Lobby","Unknown message received!!!")
 			return
@@ -151,55 +151,40 @@ func send_get_game_list():
 	Client.send(message)
 
 ### RECV FUNCTIONS ------------------------------------------------------------
-func recv_create_game(error:int, game_id:int, user_id:int):
-	Debug.log("Lobby","recv_create_game error = " +str(error) + " game_id = " + str(game_id) + " user_id = " + str(user_id))
-	if error != 0:
-		Debug.log("Lobby","Error creating Game! code = " + str(error))
-	else:
-		send_join_game(str(uiOwnerName.text),str(uiCreatePassword.text),int(game_id))
+func recv_create_game(game_id:int, user_id:int):
+	Debug.log("Lobby","recv_create_game game_id = " + str(game_id) + " user_id = " + str(user_id))
+	send_join_game(str(uiOwnerName.text),str(uiCreatePassword.text),int(game_id))
 
-func recv_delete_game(error:int ):
-	Debug.log("Lobby","recv_delete_game error = " +str(error))
-	if error != 0:
-		Debug.log("Lobby","Error deleting Game! code = " + str(error))
-	else:
-		game.queuefree()
-		change_menu(MENU.MAIN)
+func recv_delete_game():
+	Debug.log("Lobby","recv_delete_game")
+	game.queuefree()
+	change_menu(MENU.MAIN)
 
-func recv_join_game(error:int, game_id:int , user_id:int, player_list:Dictionary):
-	Debug.log("Lobby","recv_join_game error = " +str(error) + " game_id = " + str(game_id) + " user_id = " + str(user_id) +"player_list = " + str(player_list))
-	if error != 0:
-		Debug.log("Lobby","Error joining Game! code = " + str(error))
+func recv_join_game(game_id:int , user_id:int, player_list:Dictionary):
+	Debug.log("Lobby","recv_join_game game_id = " + str(game_id) + " user_id = " + str(user_id) +"player_list = " + str(player_list))
+	change_menu(MENU.NONE)
+	game = load("res://Game.tscn").instance()
+	game.set_name(str(game_id))
+	game.p_id = user_id
+	if user_id == game_id:
+		game.password = str(uiCreatePassword.text)
 	else:
-		change_menu(MENU.NONE)
-		game = load("res://Game.tscn").instance()
-		game.set_name(str(game_id))
-		game.p_id = user_id
-		if user_id == game_id:
-			game.password = str(uiCreatePassword.text)
-		else:
-			game.password = str(uiJoinPassword.text)
-		# have to convert list as after sending keys are now strings instead of ints
-		for player in player_list:
-			game.player_list[int(player)] = player_list[player]
-		add_child(game)
-		game.connect("game_ended", self, "_kill_game")
-		game.connect("leave_game", self, "_leave_game")
-		game.waiting()
+		game.password = str(uiJoinPassword.text)
+	# have to convert list as after sending keys are now strings instead of ints
+	for player in player_list:
+		game.player_list[int(player)] = player_list[player]
+	add_child(game)
+	game.connect("game_ended", self, "_kill_game")
+	game.connect("leave_game", self, "_leave_game")
+	game.waiting()
 
-func recv_leave_game(error:int ):
+func recv_leave_game():
 	Debug.log("Lobby","recv_leave_game")
-	if error != 0:
-		Debug.log("Lobby","Error leaving Game! code = " + str(error))
-	else:
-		game.queue_free()
-		change_menu(MENU.MAIN)
+	game.queue_free()
+	change_menu(MENU.MAIN)
 
-func recv_get_game_list(error:int, game_list:Array):
+func recv_get_game_list(game_list:Array):
 	Debug.log("Lobby","recv_get_game_list")
-	if error != 0:
-		Debug.log("Lobby","Error listing Game! code = " + str(error))
-		return
 	Debug.log("Lobby","game list = " + str(game_list))
 
 ### UI FUNCTIONS --------------------------------------------------------------

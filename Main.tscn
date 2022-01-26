@@ -185,6 +185,7 @@ margin_right = 200.0
 margin_bottom = 38.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+max_length = 15
 
 [node name="GameID" type="HBoxContainer" parent="JoinGame/MarginContainer/VBoxContainer"]
 margin_top = 42.0
@@ -212,6 +213,7 @@ margin_right = 200.0
 margin_bottom = 39.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+max_length = 20
 
 [node name="Password" type="HBoxContainer" parent="JoinGame/MarginContainer/VBoxContainer"]
 margin_top = 85.0
@@ -239,6 +241,7 @@ margin_right = 200.0
 margin_bottom = 39.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+max_length = 15
 
 [node name="JoinButton" type="Button" parent="JoinGame/MarginContainer/VBoxContainer"]
 margin_top = 128.0
@@ -314,6 +317,7 @@ margin_right = 250.0
 margin_bottom = 34.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+max_length = 15
 
 [node name="Password" type="HBoxContainer" parent="CreateGame/MarginContainer/VBoxContainer"]
 margin_top = 38.0
@@ -341,6 +345,7 @@ margin_right = 250.0
 margin_bottom = 34.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+max_length = 15
 
 [node name="NoPlayers" type="HBoxContainer" parent="CreateGame/MarginContainer/VBoxContainer"]
 margin_top = 76.0
@@ -363,13 +368,15 @@ Players:"
 align = 2
 valign = 1
 
-[node name="Input" type="LineEdit" parent="CreateGame/MarginContainer/VBoxContainer/NoPlayers"]
+[node name="Input" type="SpinBox" parent="CreateGame/MarginContainer/VBoxContainer/NoPlayers"]
 margin_left = 80.0
 margin_right = 250.0
 margin_bottom = 34.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-text = "4"
+min_value = 4.0
+max_value = 24.0
+value = 4.0
 
 [node name="Witchfinders" type="HBoxContainer" parent="CreateGame/MarginContainer/VBoxContainer"]
 margin_top = 114.0
@@ -392,13 +399,15 @@ Witchfinders:"
 align = 2
 valign = 1
 
-[node name="Input" type="LineEdit" parent="CreateGame/MarginContainer/VBoxContainer/Witchfinders"]
+[node name="Input" type="SpinBox" parent="CreateGame/MarginContainer/VBoxContainer/Witchfinders"]
 margin_left = 89.0
 margin_right = 250.0
 margin_bottom = 34.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-text = "2"
+min_value = 1.0
+max_value = 22.0
+value = 2.0
 
 [node name="Witches" type="HBoxContainer" parent="CreateGame/MarginContainer/VBoxContainer"]
 margin_top = 152.0
@@ -421,13 +430,15 @@ Witches:"
 align = 2
 valign = 1
 
-[node name="Input" type="LineEdit" parent="CreateGame/MarginContainer/VBoxContainer/Witches"]
+[node name="Input" type="SpinBox" parent="CreateGame/MarginContainer/VBoxContainer/Witches"]
 margin_left = 80.0
 margin_right = 250.0
 margin_bottom = 34.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-text = "1"
+min_value = 1.0
+max_value = 22.0
+value = 1.0
 
 [node name="Cultists" type="HBoxContainer" parent="CreateGame/MarginContainer/VBoxContainer"]
 margin_top = 190.0
@@ -450,13 +461,15 @@ Cultists:"
 align = 2
 valign = 1
 
-[node name="Input" type="LineEdit" parent="CreateGame/MarginContainer/VBoxContainer/Cultists"]
+[node name="Input" type="SpinBox" parent="CreateGame/MarginContainer/VBoxContainer/Cultists"]
 margin_left = 80.0
 margin_right = 250.0
 margin_bottom = 34.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-text = "1"
+min_value = 1.0
+max_value = 22.0
+value = 1.0
 
 [node name="CreateButton" type="Button" parent="CreateGame/MarginContainer/VBoxContainer"]
 margin_top = 228.0

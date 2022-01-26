@@ -283,7 +283,7 @@ func _send_start_game():
 ### RECEIVE MSG FUNCTIONS --------------------------------------
 func _rcv_msg_chat(id:int ,message: String):
 	Debug.log(str(p_id), "_rcv_msg_chat " + str(id) + ": " + str(message))
-	uiChatDisplay.text += player_list[id].name + ": " + message + "\n"
+	uiChatDisplay.text += player_list[id].name + ": \n  " + message + "\n"
 
 func _rcv_kill_player(id:int):
 	Debug.log(str(p_id), "kill_player " + str(id))
@@ -375,6 +375,13 @@ func _on_data(data):
 func _on_SendButton_button_up():
 	_send_chat_msg(uiChatInput.text)
 	uiChatInput.text = ""
+
+
+func _input(event):
+	if event is InputEventKey and event.pressed:
+		if event.scancode == KEY_ENTER:
+			_send_chat_msg(uiChatInput.text)
+			uiChatInput.text = ""
 
 func _on_Button_button_up():
 	var select = uiItemList.get_selected_items()

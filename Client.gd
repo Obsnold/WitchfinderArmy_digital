@@ -43,7 +43,7 @@ func _connected_to_server(_protocol: String) -> void:
 	Debug.log("Client","_connected_to_server")
 	emit_signal("connected_to_server")
 
-func _server_disconnected():
+func _server_disconnected(reason):
 	Debug.log("Client","_server_disconnected")
 	emit_signal("server_disconnected")
 

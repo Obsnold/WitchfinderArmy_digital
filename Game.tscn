@@ -161,6 +161,7 @@ margin_bottom = 510.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.15
+max_length = 35
 
 [node name="SendButton" type="Button" parent="MarginContainer/HBoxContainer/Chat/VBoxContainer"]
 margin_top = 514.0
