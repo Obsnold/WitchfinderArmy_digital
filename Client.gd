@@ -1,7 +1,8 @@
 extends Node
 
 ### NETWORKING
-var websocket_url = "http://66.29.143.210:3000"
+#var websocket_url = "http://66.29.143.210:3000"
+var websocket_url = "127.0.0.1:3000"
 var _client = WebSocketClient.new()
 
 # Message Types

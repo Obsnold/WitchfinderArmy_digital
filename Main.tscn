@@ -239,7 +239,6 @@ margin_right = 200.0
 margin_bottom = 39.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-text = "password"
 
 [node name="JoinButton" type="Button" parent="JoinGame/MarginContainer/VBoxContainer"]
 margin_top = 128.0
@@ -342,7 +341,6 @@ margin_right = 250.0
 margin_bottom = 34.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-text = "password"
 
 [node name="NoPlayers" type="HBoxContainer" parent="CreateGame/MarginContainer/VBoxContainer"]
 margin_top = 76.0

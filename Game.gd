@@ -6,12 +6,13 @@ const GAME_END = 0xFF
 const GAME_START = 0xFE
 
 enum {WAITING,VOTING,EXECUTING,PEEKING}
-var g_state = WAITING
-var no_players = 4
-var num_of_cultists = 1
-var num_of_witches = 1
-var num_of_witchfinders = 2
+var g_state: int = WAITING
+var no_players: int = 4
+var num_of_cultists: int = 1
+var num_of_witches: int = 1
+var num_of_witchfinders: int = 2
 var player_list = {}
+var password: String
 
 enum CARD_TYPE{WITCH, WITCHFINDER, WITCHFINDER_GENERAL, CULTIST, GHOST, NA}
 
@@ -44,7 +45,7 @@ func waiting():
 	Debug.log(str(p_id), "Waiting for all players to join!")
 	_send_request_player_list()
 	g_state = WAITING
-	uiGameId.text = "GAME ID: " + name
+	uiGameId.bbcode_text = "[center]GAME ID: " + name + "\nPASSWORD: " + password + "[/center]"
 	uiItemListTitle.text = "Waiting for players!"
 	uiItemListButton.text = "Leave Game"
 	#_show_popup(POP.WAITING)

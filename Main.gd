@@ -175,6 +175,10 @@ func recv_join_game(error:int, game_id:int , user_id:int, player_list:Dictionary
 		game = load("res://Game.tscn").instance()
 		game.set_name(str(game_id))
 		game.p_id = user_id
+		if user_id == game_id:
+			game.password = str(uiCreatePassword.text)
+		else:
+			game.password = str(uiJoinPassword.text)
 		# have to convert list as after sending keys are now strings instead of ints
 		for player in player_list:
 			game.player_list[int(player)] = player_list[player]
