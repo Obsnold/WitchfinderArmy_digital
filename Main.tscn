@@ -1,12 +1,44 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
-[ext_resource path="res://Theme/WitchfinderTheme.tres" type="Theme" id=2]
+[ext_resource path="res://Theme/text_display.tres" type="StyleBox" id=2]
 [ext_resource path="res://Theme/popup.tres" type="StyleBox" id=3]
 [ext_resource path="res://Theme/button.tres" type="StyleBox" id=4]
 [ext_resource path="res://Theme/text_edit.tres" type="StyleBox" id=5]
 [ext_resource path="res://Theme/button_hover.tres" type="StyleBox" id=6]
 [ext_resource path="res://Resources/title.svg" type="Texture" id=7]
+[ext_resource path="res://Theme/select_list.tres" type="StyleBox" id=8]
+[ext_resource path="res://Resources/UI/arrows.png" type="Texture" id=9]
+
+[sub_resource type="StyleBoxTexture" id=1]
+
+[sub_resource type="Theme" id=3]
+/fonts/Button = null
+Button/colors/font_color = Color( 0, 0, 0, 1 )
+Button/colors/font_color_focus = Color( 0, 0, 0, 1 )
+Button/colors/font_color_hover = Color( 0, 0, 0, 1 )
+Button/colors/font_color_pressed = Color( 0, 0, 0, 1 )
+Button/styles/disabled = SubResource( 1 )
+Button/styles/hover = ExtResource( 6 )
+Button/styles/normal = ExtResource( 4 )
+Button/styles/pressed = ExtResource( 6 )
+ItemList/colors/font_color = Color( 0, 0, 0, 1 )
+ItemList/colors/font_color_selected = Color( 1, 1, 1, 1 )
+ItemList/styles/bg = ExtResource( 8 )
+Label/colors/font_color = Color( 0, 0, 0, 1 )
+LineEdit/colors/font_color = Color( 0, 0, 0, 1 )
+LineEdit/colors/font_color_selected = Color( 1, 1, 1, 1 )
+LineEdit/colors/selection_color = Color( 0.490196, 0.490196, 0.490196, 1 )
+LineEdit/styles/focus = ExtResource( 5 )
+LineEdit/styles/normal = ExtResource( 5 )
+PopupDialog/styles/panel = ExtResource( 3 )
+RichTextLabel/colors/default_color = Color( 0, 0, 0, 1 )
+SpinBox/icons/updown = ExtResource( 9 )
+TextEdit/colors/font_color = Color( 0, 0, 0, 1 )
+TextEdit/colors/font_color_readonly = Color( 0, 0, 0, 1 )
+TextEdit/colors/font_color_selected = Color( 1, 1, 1, 1 )
+TextEdit/styles/normal = ExtResource( 2 )
+TextEdit/styles/read_only = ExtResource( 2 )
 
 [sub_resource type="Theme" id=2]
 /fonts/Button = null
@@ -22,7 +54,7 @@ PopupDialog/styles/panel = ExtResource( 3 )
 TextEdit/colors/font_color = Color( 0, 0, 0, 1 )
 TextEdit/styles/normal = ExtResource( 5 )
 
-[sub_resource type="Theme" id=1]
+[sub_resource type="Theme" id=4]
 
 [node name="Main" type="Node"]
 script = ExtResource( 1 )
@@ -33,7 +65,7 @@ margin_left = 35.0
 margin_top = -101.0
 margin_right = 335.0
 margin_bottom = 199.0
-theme = ExtResource( 2 )
+theme = SubResource( 3 )
 popup_exclusive = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -120,7 +152,7 @@ text = "Create Game"
 margin_top = 116.0
 margin_right = 200.0
 margin_bottom = 170.0
-theme = SubResource( 1 )
+theme = SubResource( 4 )
 text = "Network Settings"
 
 [node name="JoinGame" type="PopupDialog" parent="."]
@@ -133,7 +165,7 @@ rect_min_size = Vector2( 300, 340 )
 rect_pivot_offset = Vector2( -330, 113 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = ExtResource( 2 )
+theme = SubResource( 3 )
 popup_exclusive = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -249,6 +281,7 @@ margin_right = 200.0
 margin_bottom = 182.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+disabled = true
 text = "Join"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -269,7 +302,7 @@ margin_bottom = 670.0
 rect_min_size = Vector2( 350, 440 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = ExtResource( 2 )
+theme = SubResource( 3 )
 popup_exclusive = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -475,6 +508,7 @@ value = 1.0
 margin_top = 228.0
 margin_right = 250.0
 margin_bottom = 282.0
+disabled = true
 text = "Create"
 
 [node name="BackButton" type="Button" parent="CreateGame/MarginContainer/VBoxContainer"]
@@ -492,7 +526,7 @@ margin_bottom = 527.0
 rect_min_size = Vector2( 300, 300 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = ExtResource( 2 )
+theme = SubResource( 3 )
 popup_exclusive = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -596,7 +630,7 @@ margin_left = 692.0
 margin_top = -106.0
 margin_right = 992.0
 margin_bottom = 194.0
-theme = ExtResource( 2 )
+theme = SubResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -634,8 +668,15 @@ valign = 1
 [connection signal="button_up" from="MainMenu/MarginContainer/VBoxContainer/JoinGame" to="." method="_on_JoinGame_button_up"]
 [connection signal="button_up" from="MainMenu/MarginContainer/VBoxContainer/CreateGame" to="." method="_on_CreateGame_button_up"]
 [connection signal="button_up" from="MainMenu/MarginContainer/VBoxContainer/NetworkSettings" to="." method="_on_NetworkSettings_button_up"]
+[connection signal="text_changed" from="JoinGame/MarginContainer/VBoxContainer/Name/Input" to="." method="_on_player_name_text_changed"]
+[connection signal="text_changed" from="JoinGame/MarginContainer/VBoxContainer/GameID/Input" to="." method="_on_game_id_text_changed"]
 [connection signal="button_up" from="JoinGame/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_JoinButton_button_up"]
 [connection signal="button_up" from="JoinGame/MarginContainer/VBoxContainer/BackButton" to="." method="_on_BackButton_button_up"]
+[connection signal="text_changed" from="CreateGame/MarginContainer/VBoxContainer/Name/Input" to="." method="_on_OwnerName_text_changed"]
+[connection signal="value_changed" from="CreateGame/MarginContainer/VBoxContainer/NoPlayers/Input" to="." method="_on_NoPlayers_value_changed"]
+[connection signal="value_changed" from="CreateGame/MarginContainer/VBoxContainer/Witchfinders/Input" to="." method="_on_Witchfinders_value_changed"]
+[connection signal="value_changed" from="CreateGame/MarginContainer/VBoxContainer/Witches/Input" to="." method="_on_Witches_value_changed"]
+[connection signal="value_changed" from="CreateGame/MarginContainer/VBoxContainer/Cultists/Input" to="." method="_on_Cultists_value_changed"]
 [connection signal="button_up" from="CreateGame/MarginContainer/VBoxContainer/CreateButton" to="." method="_on_CreateButton_button_up"]
 [connection signal="button_up" from="CreateGame/MarginContainer/VBoxContainer/BackButton" to="." method="_on_BackButton_button_up"]
 [connection signal="button_up" from="NetworkSettings/MarginContainer/VBoxContainer/BackButton" to="." method="_on_BackButton_button_up"]

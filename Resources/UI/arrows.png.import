@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/button_border_Hover.png-2636f5efcf2f064345c8eb3d0ed1f0f6.stex"
+path="res://.import/arrows.png-dae49afa8a9c684f388dfe8bb67c721b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/UI/button_border_Hover.png"
-dest_files=[ "res://.import/button_border_Hover.png-2636f5efcf2f064345c8eb3d0ed1f0f6.stex" ]
+source_file="res://Resources/UI/arrows.png"
+dest_files=[ "res://.import/arrows.png-dae49afa8a9c684f388dfe8bb67c721b.stex" ]
 
 [params]
 

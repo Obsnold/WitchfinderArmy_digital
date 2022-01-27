@@ -222,15 +222,6 @@ func handle_error(err_code:int):
 	uiPopUpMessage.text = str(ERROR.keys()[err_code])
 	uiPopUp.popup_centered()
 
-func _on_JoinButton_button_up():
-	change_menu(MENU.LOADING)
-	send_join_game(str(uiPlayerName.text),str(uiJoinPassword.text),int(uiGameID.text))
-
-func _on_CreateButton_button_up():
-	change_menu(MENU.LOADING)
-	send_create_game(str(uiOwnerName.text),str(uiCreatePassword.text),int(uiNoPlayers.text),
-					int(uiNoWitchfinders.text),int(uiNoCultists.text),int(uiNoWitches.text))
-
 func _on_BackButton_button_up():
 	Debug.log("Lobby","BackButton")
 	change_menu(MENU.MAIN)
@@ -243,3 +234,149 @@ func _on_CreateGame_button_up():
 
 func _on_NetworkSettings_button_up():
 	change_menu(MENU.NETWORK)
+
+# join menu controlls
+func _on_JoinButton_button_up():
+	change_menu(MENU.LOADING)
+	send_join_game(str(uiPlayerName.text),str(uiJoinPassword.text),int(uiGameID.text))
+
+func _on_player_name_text_changed(new_text):
+	check_join_button_enable()
+
+func _on_game_id_text_changed(new_text):
+	check_join_button_enable()
+
+func check_join_button_enable():
+	if uiPlayerName.text == "" || uiGameID.text == "":
+		uiJoinButton.disabled = true
+		
+	if uiPlayerName.text != "" && uiGameID.text != "":
+		uiJoinButton.disabled = false
+
+#Create game menu buttons
+func _on_OwnerName_text_changed(new_text):
+	check_create_button_enable()
+	
+func _on_NoPlayers_value_changed(value):
+	match int(uiNoPlayers.value):
+		4:
+			uiNoWitchfinders.value = 2
+			uiNoWitches.value = 1
+			uiNoCultists.value = 1
+		5:
+			uiNoWitchfinders.value = 2
+			uiNoWitches.value = 2
+			uiNoCultists.value = 1
+		6:
+			uiNoWitchfinders.value = 2
+			uiNoWitches.value = 2
+			uiNoCultists.value = 2
+		7:
+			uiNoWitchfinders.value = 3
+			uiNoWitches.value = 2
+			uiNoCultists.value = 2
+		8:
+			uiNoWitchfinders.value = 4
+			uiNoWitches.value = 2
+			uiNoCultists.value = 2
+		9:
+			uiNoWitchfinders.value = 5
+			uiNoWitches.value = 2
+			uiNoCultists.value = 2
+		10:
+			uiNoWitchfinders.value = 6
+			uiNoWitches.value = 2
+			uiNoCultists.value = 2
+		11:
+			uiNoWitchfinders.value = 6
+			uiNoWitches.value = 3
+			uiNoCultists.value = 2
+		12:
+			uiNoWitchfinders.value = 6
+			uiNoWitches.value = 3
+			uiNoCultists.value = 3
+		13:
+			uiNoWitchfinders.value = 7
+			uiNoWitches.value = 3
+			uiNoCultists.value = 3
+		14:
+			uiNoWitchfinders.value = 8
+			uiNoWitches.value = 3
+			uiNoCultists.value = 3
+		15:
+			uiNoWitchfinders.value = 8
+			uiNoWitches.value = 4
+			uiNoCultists.value = 3
+		16:
+			uiNoWitchfinders.value = 8
+			uiNoWitches.value = 4
+			uiNoCultists.value = 4
+		17:
+			uiNoWitchfinders.value = 9
+			uiNoWitches.value = 4
+			uiNoCultists.value = 4
+		18:
+			uiNoWitchfinders.value = 10
+			uiNoWitches.value = 4
+			uiNoCultists.value = 4
+		19:
+			uiNoWitchfinders.value = 10
+			uiNoWitches.value = 5
+			uiNoCultists.value = 4
+		20:
+			uiNoWitchfinders.value = 10
+			uiNoWitches.value = 5
+			uiNoCultists.value = 5
+		21:
+			uiNoWitchfinders.value = 11
+			uiNoWitches.value = 5
+			uiNoCultists.value = 5
+		22:
+			uiNoWitchfinders.value = 12
+			uiNoWitches.value = 5
+			uiNoCultists.value = 5
+		23:
+			uiNoWitchfinders.value = 12
+			uiNoWitches.value = 6
+			uiNoCultists.value = 5
+		24:
+			uiNoWitchfinders.value = 12
+			uiNoWitches.value = 6
+			uiNoCultists.value = 6
+	check_create_button_enable()
+
+func _on_Witchfinders_value_changed(value):
+	if (uiNoWitchfinders.value + uiNoCultists.value + uiNoWitches.value) > uiNoPlayers.value:
+		uiNoWitchfinders.value = value - 1
+	check_create_button_enable()
+
+func _on_Witches_value_changed(value):
+	if (uiNoWitchfinders.value + uiNoCultists.value + uiNoWitches.value) > uiNoPlayers.value:
+		uiNoWitches.value = value - 1
+	check_create_button_enable()
+
+func _on_Cultists_value_changed(value):
+	if (uiNoWitchfinders.value + uiNoCultists.value + uiNoWitches.value) > uiNoPlayers.value:
+		uiNoCultists.value = value - 1
+	check_create_button_enable()
+
+func _on_CreateButton_button_up():
+	change_menu(MENU.LOADING)
+	send_create_game(str(uiOwnerName.text),str(uiCreatePassword.text),int(uiNoPlayers.value),
+			int(uiNoWitchfinders.value),int(uiNoCultists.value),int(uiNoWitches.value))
+		
+
+func check_create_button_enable():
+	if (uiNoWitchfinders.value + uiNoCultists.value + uiNoWitches.value) < uiNoPlayers.value || uiOwnerName.text == "":
+		uiCreateButton.disabled = true
+		
+	if (uiNoWitchfinders.value + uiNoCultists.value + uiNoWitches.value) == uiNoPlayers.value && uiOwnerName.text != "":
+		uiCreateButton.disabled = false
+
+
+
+
+
+
+
+
