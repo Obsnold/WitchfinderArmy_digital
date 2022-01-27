@@ -1,43 +1,7 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Game.gd" type="Script" id=1]
-[ext_resource path="res://Theme/popup.tres" type="StyleBox" id=2]
-[ext_resource path="res://Theme/button.tres" type="StyleBox" id=3]
-[ext_resource path="res://Theme/button_hover.tres" type="StyleBox" id=4]
-[ext_resource path="res://Theme/text_edit.tres" type="StyleBox" id=5]
-[ext_resource path="res://Theme/text_display.tres" type="StyleBox" id=6]
-[ext_resource path="res://Theme/select_list.tres" type="StyleBox" id=7]
-[ext_resource path="res://Resources/UI/arrows.png" type="Texture" id=8]
-
-[sub_resource type="StyleBoxTexture" id=1]
-
-[sub_resource type="Theme" id=3]
-/fonts/Button = null
-Button/colors/font_color = Color( 0, 0, 0, 1 )
-Button/colors/font_color_focus = Color( 0, 0, 0, 1 )
-Button/colors/font_color_hover = Color( 0, 0, 0, 1 )
-Button/colors/font_color_pressed = Color( 0, 0, 0, 1 )
-Button/styles/disabled = SubResource( 1 )
-Button/styles/hover = ExtResource( 4 )
-Button/styles/normal = ExtResource( 3 )
-Button/styles/pressed = ExtResource( 4 )
-ItemList/colors/font_color = Color( 0, 0, 0, 1 )
-ItemList/colors/font_color_selected = Color( 1, 1, 1, 1 )
-ItemList/styles/bg = ExtResource( 7 )
-Label/colors/font_color = Color( 0, 0, 0, 1 )
-LineEdit/colors/font_color = Color( 0, 0, 0, 1 )
-LineEdit/colors/font_color_selected = Color( 1, 1, 1, 1 )
-LineEdit/colors/selection_color = Color( 0.490196, 0.490196, 0.490196, 1 )
-LineEdit/styles/focus = ExtResource( 5 )
-LineEdit/styles/normal = ExtResource( 5 )
-PopupDialog/styles/panel = ExtResource( 2 )
-RichTextLabel/colors/default_color = Color( 0, 0, 0, 1 )
-SpinBox/icons/updown = ExtResource( 8 )
-TextEdit/colors/font_color = Color( 0, 0, 0, 1 )
-TextEdit/colors/font_color_readonly = Color( 0, 0, 0, 1 )
-TextEdit/colors/font_color_selected = Color( 1, 1, 1, 1 )
-TextEdit/styles/normal = ExtResource( 6 )
-TextEdit/styles/read_only = ExtResource( 6 )
+[ext_resource path="res://Theme/WitchfinderTheme.tres" type="Theme" id=2]
 
 [node name="Game" type="Node"]
 script = ExtResource( 1 )
@@ -45,7 +9,7 @@ script = ExtResource( 1 )
 [node name="MarginContainer" type="MarginContainer" parent="."]
 margin_right = 1024.0
 margin_bottom = 600.0
-theme = SubResource( 3 )
+theme = ExtResource( 2 )
 custom_constants/margin_right = 10
 custom_constants/margin_top = 10
 custom_constants/margin_left = 10

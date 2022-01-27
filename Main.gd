@@ -42,7 +42,8 @@ onready var uiNetBackButton = $NetworkSettings/MarginContainer/VBoxContainer/Bac
 
 # Error PopUp UI
 onready var uiPopUp = $ErrorPopup
-onready var uiPopUpMessage = $ErrorPopup/MarginContainer/Message
+onready var uiPopUpMessage = $ErrorPopup/MarginContainer/VBoxContainer/Message
+onready var uiPopUpButton = $ErrorPopup/MarginContainer/VBoxContainer/Button
 
 onready var uiLoading = $Loading
 
@@ -51,12 +52,16 @@ onready var uiTitle = $Title
 # holds the instance of the game
 var game
 
+var previous_menu = MENU.MAIN
+var current_menu = MENU.MAIN
+
 func _ready():
 	change_menu(MENU.LOADING)
 	Client.connect("connection_error", self, "_connection_failed")
 	Client.connect("connected_to_server", self, "_connected_to_server")
 	Client.connect("data_lobby", self, "_on_data")
 	if Client.connect_to_server() == false:
+		uiPopUpButton.hide()
 		uiPopUpMessage.text = "Cannot Connect To Server!\nTry refreshing Page"
 		uiPopUp.popup_centered()
 
@@ -70,6 +75,7 @@ func _leave_game():
 # CLIENT callback functions ----------------------------
 func _connection_failed():
 	Debug.log("Lobby","_connection_failed")
+	uiPopUpButton.hide()
 	uiPopUpMessage.text = "Could not connect to server!\nTry refreshing Page"
 	uiPopUp.popup_centered()
 	
@@ -190,6 +196,8 @@ func recv_get_game_list(game_list:Array):
 ### UI FUNCTIONS --------------------------------------------------------------
 func change_menu(menu):
 	Debug.log("Lobby","change_menu")
+	previous_menu = current_menu
+	current_menu = menu
 	uiMainMenu.hide()
 	uiJoinGame.hide()
 	uiCreateGame.hide()
@@ -218,9 +226,7 @@ func change_menu(menu):
 			Debug.log("Lobby", "Unknown Menu")
 			uiMainMenu.popup_centered()
 
-func handle_error(err_code:int):
-	uiPopUpMessage.text = str(ERROR.keys()[err_code])
-	uiPopUp.popup_centered()
+
 
 func _on_BackButton_button_up():
 	Debug.log("Lobby","BackButton")
@@ -373,10 +379,12 @@ func check_create_button_enable():
 	if (uiNoWitchfinders.value + uiNoCultists.value + uiNoWitches.value) == uiNoPlayers.value && uiOwnerName.text != "":
 		uiCreateButton.disabled = false
 
+# error popup ui
+func handle_error(err_code:int):
+	uiPopUpButton.show()
+	uiPopUpMessage.text = str(ERROR.keys()[err_code])
+	uiPopUp.popup_centered()
 
-
-
-
-
-
-
+func _on_error_button_up():
+	uiPopUp.hide()
+	change_menu(previous_menu)

@@ -1,58 +1,8 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
-[ext_resource path="res://Theme/text_display.tres" type="StyleBox" id=2]
-[ext_resource path="res://Theme/popup.tres" type="StyleBox" id=3]
-[ext_resource path="res://Theme/button.tres" type="StyleBox" id=4]
-[ext_resource path="res://Theme/text_edit.tres" type="StyleBox" id=5]
-[ext_resource path="res://Theme/button_hover.tres" type="StyleBox" id=6]
 [ext_resource path="res://Resources/title.svg" type="Texture" id=7]
-[ext_resource path="res://Theme/select_list.tres" type="StyleBox" id=8]
-[ext_resource path="res://Resources/UI/arrows.png" type="Texture" id=9]
-
-[sub_resource type="StyleBoxTexture" id=1]
-
-[sub_resource type="Theme" id=3]
-/fonts/Button = null
-Button/colors/font_color = Color( 0, 0, 0, 1 )
-Button/colors/font_color_focus = Color( 0, 0, 0, 1 )
-Button/colors/font_color_hover = Color( 0, 0, 0, 1 )
-Button/colors/font_color_pressed = Color( 0, 0, 0, 1 )
-Button/styles/disabled = SubResource( 1 )
-Button/styles/hover = ExtResource( 6 )
-Button/styles/normal = ExtResource( 4 )
-Button/styles/pressed = ExtResource( 6 )
-ItemList/colors/font_color = Color( 0, 0, 0, 1 )
-ItemList/colors/font_color_selected = Color( 1, 1, 1, 1 )
-ItemList/styles/bg = ExtResource( 8 )
-Label/colors/font_color = Color( 0, 0, 0, 1 )
-LineEdit/colors/font_color = Color( 0, 0, 0, 1 )
-LineEdit/colors/font_color_selected = Color( 1, 1, 1, 1 )
-LineEdit/colors/selection_color = Color( 0.490196, 0.490196, 0.490196, 1 )
-LineEdit/styles/focus = ExtResource( 5 )
-LineEdit/styles/normal = ExtResource( 5 )
-PopupDialog/styles/panel = ExtResource( 3 )
-RichTextLabel/colors/default_color = Color( 0, 0, 0, 1 )
-SpinBox/icons/updown = ExtResource( 9 )
-TextEdit/colors/font_color = Color( 0, 0, 0, 1 )
-TextEdit/colors/font_color_readonly = Color( 0, 0, 0, 1 )
-TextEdit/colors/font_color_selected = Color( 1, 1, 1, 1 )
-TextEdit/styles/normal = ExtResource( 2 )
-TextEdit/styles/read_only = ExtResource( 2 )
-
-[sub_resource type="Theme" id=2]
-/fonts/Button = null
-Button/colors/font_color = Color( 0, 0, 0, 1 )
-Button/colors/font_color_disabled = Color( 0, 0, 0, 0.2 )
-Button/colors/font_color_focus = Color( 0, 0, 0, 1 )
-Button/colors/font_color_hover = Color( 0, 0, 0, 1 )
-Button/colors/font_color_pressed = Color( 0, 0, 0, 1 )
-Button/styles/hover = ExtResource( 6 )
-Button/styles/normal = ExtResource( 4 )
-Button/styles/pressed = ExtResource( 6 )
-PopupDialog/styles/panel = ExtResource( 3 )
-TextEdit/colors/font_color = Color( 0, 0, 0, 1 )
-TextEdit/styles/normal = ExtResource( 5 )
+[ext_resource path="res://Theme/WitchfinderTheme.tres" type="Theme" id=10]
 
 [sub_resource type="Theme" id=4]
 
@@ -65,7 +15,7 @@ margin_left = 35.0
 margin_top = -101.0
 margin_right = 335.0
 margin_bottom = 199.0
-theme = SubResource( 3 )
+theme = ExtResource( 10 )
 popup_exclusive = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -85,17 +35,32 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Message" type="Label" parent="ErrorPopup/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ErrorPopup/MarginContainer"]
 margin_left = 50.0
-margin_top = 143.0
+margin_top = 50.0
 margin_right = 250.0
-margin_bottom = 157.0
+margin_bottom = 250.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Message" type="Label" parent="ErrorPopup/MarginContainer/VBoxContainer"]
+margin_right = 200.0
+margin_bottom = 142.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 text = "Test"
 align = 1
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Button" type="Button" parent="ErrorPopup/MarginContainer/VBoxContainer"]
+margin_top = 146.0
+margin_right = 200.0
+margin_bottom = 200.0
+size_flags_vertical = 0
+text = "OK"
 
 [node name="MainMenu" type="PopupDialog" parent="."]
 visible = true
@@ -107,7 +72,7 @@ rect_min_size = Vector2( 300, 300 )
 rect_pivot_offset = Vector2( -330, 113 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = SubResource( 2 )
+theme = ExtResource( 10 )
 popup_exclusive = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -165,7 +130,7 @@ rect_min_size = Vector2( 300, 340 )
 rect_pivot_offset = Vector2( -330, 113 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = SubResource( 3 )
+theme = ExtResource( 10 )
 popup_exclusive = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -302,7 +267,7 @@ margin_bottom = 670.0
 rect_min_size = Vector2( 350, 440 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = SubResource( 3 )
+theme = ExtResource( 10 )
 popup_exclusive = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -526,7 +491,7 @@ margin_bottom = 527.0
 rect_min_size = Vector2( 300, 300 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = SubResource( 3 )
+theme = ExtResource( 10 )
 popup_exclusive = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -630,7 +595,7 @@ margin_left = 692.0
 margin_top = -106.0
 margin_right = 992.0
 margin_bottom = 194.0
-theme = SubResource( 3 )
+theme = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -665,6 +630,7 @@ text = "Loading!"
 align = 1
 valign = 1
 
+[connection signal="button_up" from="ErrorPopup/MarginContainer/VBoxContainer/Button" to="." method="_on_error_button_up"]
 [connection signal="button_up" from="MainMenu/MarginContainer/VBoxContainer/JoinGame" to="." method="_on_JoinGame_button_up"]
 [connection signal="button_up" from="MainMenu/MarginContainer/VBoxContainer/CreateGame" to="." method="_on_CreateGame_button_up"]
 [connection signal="button_up" from="MainMenu/MarginContainer/VBoxContainer/NetworkSettings" to="." method="_on_NetworkSettings_button_up"]
