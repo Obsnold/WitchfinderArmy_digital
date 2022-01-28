@@ -5,7 +5,7 @@ enum SUB{CHAT,KILL,PEEK,VOTE,PLAYER_LIST,START,END}
 const GAME_END = 0xFF
 const GAME_START = 0xFE
 
-enum {WAITING,VOTING,EXECUTING,PEEKING}
+enum {WAITING,VOTING,EXECUTING,PEEKING,FINISHED}
 var g_state: int = WAITING
 var no_players: int = 4
 var num_of_cultists: int = 1
@@ -33,7 +33,8 @@ onready var uiItemListTitle = $MarginContainer/HBoxContainer/Select/VBoxContaine
 onready var uiItemListButton = $MarginContainer/HBoxContainer/Select/VBoxContainer/Button
 onready var uiChatDisplay = $MarginContainer/HBoxContainer/Chat/VBoxContainer/Display
 onready var uiChatInput = $MarginContainer/HBoxContainer/Chat/VBoxContainer/Input
-
+onready var uiVictoryPopup = $VictoryPopup
+onready var uiVictoryPopupText = $VictoryPopup/MarginContainer/Message
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -53,8 +54,14 @@ func waiting():
 
 ### HELPER FUNCTIONS -------------------------------------------------------
 func get_id_from_name(name:String):
-	#Debug.log(str(p_id), "get_id_from_name")
+	Debug.log(str(p_id), "get_id_from_name")
 	var id = 0
+	# remove any additional text so we can compare
+	name = name.replace(" (General)","")
+	name = name.replace(" (Witch)","")
+	name = name.replace(" (Ghost)","")
+	name = name.replace(" (Cultist)","")
+	Debug.log(str(p_id),str(name))
 	for player in player_list.keys():
 		if player_list[player].name == name:
 			id = player
@@ -179,7 +186,13 @@ func game_start():
 
 func game_end(winner:int):
 	#Debug.log(str(p_id), "game_end")
-	uiSelectWindow.hide()
+	g_state = FINISHED
+	uiItemListButton.text = "Leave Game"
+	uiVictoryPopupText.text = CARD_TYPE.keys()[winner] + " WIN!!!!\n"
+	uiVictoryPopup.popup_centered()
+	uiItemListTitle = ""
+	_update_list()
+	uiItemListButton.show()
 	uiChatDisplay.text += CARD_TYPE.keys()[winner] + " WIN!!!!\n"	
 	pass
 
@@ -386,7 +399,7 @@ func _input(event):
 func _on_Button_button_up():
 	var select = uiItemList.get_selected_items()
 	match g_state:
-		WAITING:
+		WAITING,FINISHED:
 			emit_signal("leave_game")
 		VOTING:
 			if select.size() > 0:
@@ -427,6 +440,9 @@ func _update_list():
 					_add_player_to_list(player,false)
 				else:
 					_add_player_to_list(player,true)
+		FINISHED:
+			for player in player_list.keys():
+				_add_player_to_list(player,false)
 		_:
 			for player in player_list.keys():
 				_add_player_to_list(player,false)
@@ -434,7 +450,7 @@ func _update_list():
 		
 func _add_player_to_list(player:int,enabled:bool):
 	var name_tag = player_list[player].name
-	if(g_state != WAITING):
+	if(g_state != WAITING or g_state != FINISHED):
 		if (player_list[p_id].type == player_list[player].type):
 			match int(player_list[player].type):
 				CARD_TYPE.WITCH:
@@ -445,6 +461,20 @@ func _add_player_to_list(player:int,enabled:bool):
 			name_tag += " (Ghost)"
 		if player_list[player].general == true:
 			name_tag += " (General)"
+	elif g_state == FINISHED:
+		match int(player_list[player].type):
+			CARD_TYPE.WITCH:
+				name_tag += " (Witch)"
+			CARD_TYPE.CULTIST:
+				name_tag += " (Cultist)"
+			CARD_TYPE.WITCHFINDER:
+				name_tag += " (Witchfinder)"
+		if player_list[player].ghost == true:
+			name_tag += " (Ghost)"
+		if player_list[player].general == true:
+			name_tag += " (General)"
+		
 	uiItemList.add_item(name_tag,null,enabled)
 	uiItemList.set_item_disabled(uiItemList.get_item_count()-1,!enabled)
 	
+

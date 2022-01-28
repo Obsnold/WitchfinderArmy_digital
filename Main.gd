@@ -95,7 +95,7 @@ func _on_data(data):
 		SUB.DELETE:
 			recv_delete_game()
 		SUB.JOIN:
-			recv_join_game(int(data.game_id),int(data.user_id),data.player_list)
+			recv_join_game(int(data.game_id),int(data.user_id),data.player_list,int(data.player_count),int(data.witchfinders),int(data.witches),int(data.cultists))
 		SUB.LEAVE:
 			recv_leave_game()
 		SUB.LIST:
@@ -166,12 +166,16 @@ func recv_delete_game():
 	game.queuefree()
 	change_menu(MENU.MAIN)
 
-func recv_join_game(game_id:int , user_id:int, player_list:Dictionary):
+func recv_join_game(game_id:int , user_id:int, player_list:Dictionary, no_players:int,witchfinders:int,witches:int,cultists:int):
 	Debug.log("Lobby","recv_join_game game_id = " + str(game_id) + " user_id = " + str(user_id) +"player_list = " + str(player_list))
 	change_menu(MENU.NONE)
 	game = load("res://Game.tscn").instance()
 	game.set_name(str(game_id))
 	game.p_id = user_id
+	game.no_players = no_players
+	game.num_of_cultists = cultists
+	game.num_of_witches = witches
+	game.num_of_witchfinders = witchfinders
 	if user_id == game_id:
 		game.password = str(uiCreatePassword.text)
 	else:
