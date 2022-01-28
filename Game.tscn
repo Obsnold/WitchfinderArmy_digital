@@ -175,7 +175,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VictoryPopup" type="PopupDialog" parent="."]
+[node name="Popup" type="PopupDialog" parent="."]
 visible = true
 margin_left = -300.0
 margin_bottom = 300.0
@@ -184,7 +184,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MarginContainer" type="MarginContainer" parent="VictoryPopup"]
+[node name="MarginContainer" type="MarginContainer" parent="Popup"]
 margin_left = 0.85276
 margin_right = 300.853
 margin_bottom = 300.0
@@ -198,7 +198,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Message" type="Label" parent="VictoryPopup/MarginContainer"]
+[node name="Message" type="Label" parent="Popup/MarginContainer"]
 margin_left = 50.0
 margin_top = 50.0
 margin_right = 250.0
@@ -208,6 +208,7 @@ size_flags_vertical = 3
 text = "Test"
 align = 1
 valign = 1
+autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }

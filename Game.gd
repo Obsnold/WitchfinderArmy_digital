@@ -33,8 +33,8 @@ onready var uiItemListTitle = $MarginContainer/HBoxContainer/Select/VBoxContaine
 onready var uiItemListButton = $MarginContainer/HBoxContainer/Select/VBoxContainer/Button
 onready var uiChatDisplay = $MarginContainer/HBoxContainer/Chat/VBoxContainer/Display
 onready var uiChatInput = $MarginContainer/HBoxContainer/Chat/VBoxContainer/Input
-onready var uiVictoryPopup = $VictoryPopup
-onready var uiVictoryPopupText = $VictoryPopup/MarginContainer/Message
+onready var uiPopup = $Popup
+onready var uiPopupText = $Popup/MarginContainer/Message
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -83,6 +83,8 @@ func new_general(id:int):
 		player_list[player].general = false
 	player_list[id].general = true
 	uiChatDisplay.text += player_list[id].name + " is the new Witchfinder General!" + "\n"
+	uiPopupText.text = player_list[id].name + " is the new Witchfinder General!"
+	uiPopup.popup_centered()
 	if id == p_id:
 		start_execution()
 
@@ -154,9 +156,11 @@ func stop_ghost_peek(id:int):
 	#Debug.log(str(p_id), "stop_ghost_peek")
 	_send_chat_msg( "peeks at " + player_list[id].name)
 	uiChatDisplay.text += player_list[id].name + " is a " + CARD_TYPE.keys()[player_list[id].type] + "\n"
+	uiPopupText.text = player_list[id].name + " is a " + CARD_TYPE.keys()[player_list[id].type]
+	uiPopup.popup_centered()
 	_disable_list()
 	uiItemListButton.hide()
-	_send_finished_peeking()
+	_send_finished_peeking(id)
 
 func game_start():
 	var front
@@ -188,8 +192,8 @@ func game_end(winner:int):
 	#Debug.log(str(p_id), "game_end")
 	g_state = FINISHED
 	uiItemListButton.text = "Leave Game"
-	uiVictoryPopupText.text = CARD_TYPE.keys()[winner] + " WIN!!!!\n"
-	uiVictoryPopup.popup_centered()
+	uiPopupText.text = CARD_TYPE.keys()[winner] + " WIN!!!!\n"
+	uiPopup.popup_centered()
 	uiItemListTitle = ""
 	_update_list()
 	uiItemListButton.show()
@@ -245,12 +249,14 @@ func _send_kill_player(id:int):
 	}
 	Client.send(data)
 	
-func _send_finished_peeking():
+func _send_finished_peeking(id:int):
 	Debug.log(str(p_id), "_send_finished_peeking")
 	var data: Dictionary = {
 		msg_type = int(Client.MSG.WFG),
 		sub_type = int(SUB.PEEK),
 		game_id = int(name),
+		user_id = int(p_id),
+		peek_id = int(id)
 	}
 	Client.send(data)
 	
@@ -307,10 +313,18 @@ func _rcv_kill_player(id:int):
 		game_end(winner)
 	else:
 		if id == p_id:
+			uiPopupText.text = "You have been executed!"
+			uiPopup.popup_centered()
 			start_ghost_peek()
+		else:
+			uiPopupText.text = player_list[id].name + " has been executed!"
+			uiPopup.popup_centered()
+			
 
-func _rcv_finished_peeking():
+func _rcv_finished_peeking(user_id:int, peek_id:int):
 	Debug.log(str(p_id), "finished_peeking")
+	uiPopupText.text = player_list[user_id].name + " peeked at " + player_list[peek_id].name
+	uiPopup.popup_centered()
 	if player_list[p_id].ghost == false:
 		start_voting()
 
@@ -370,7 +384,7 @@ func _on_data(data):
 		SUB.KILL:	# player has been executed
 			_rcv_kill_player(int(data.kill_id))
 		SUB.PEEK:	# player has finished peeking
-			_rcv_finished_peeking()
+			_rcv_finished_peeking(int(data.user_id),int(data.peek_id))
 		SUB.VOTE:	# a player has voted
 			_rcv_vote_for(int(data.user_id),int(data.vote_id))
 		SUB.PLAYER_LIST:	# new player list received
@@ -450,7 +464,7 @@ func _update_list():
 		
 func _add_player_to_list(player:int,enabled:bool):
 	var name_tag = player_list[player].name
-	if(g_state != WAITING or g_state != FINISHED):
+	if(g_state != WAITING and g_state != FINISHED):
 		if (player_list[p_id].type == player_list[player].type):
 			match int(player_list[player].type):
 				CARD_TYPE.WITCH:
